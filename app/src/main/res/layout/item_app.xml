@@ -49,13 +49,6 @@
                 android:textColor="@color/c247_text"
                 android:textSize="13sp" />
         </LinearLayout>
-
-        <!-- Fokusramme tegnes øverst, over app-banneret -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_tile_overlay"
-            android:duplicateParentState="true" />
     </no.cloud247.tvlauncher.AspectFrameLayout>
 
     <TextView

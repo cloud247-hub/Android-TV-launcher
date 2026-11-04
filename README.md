@@ -4,6 +4,19 @@ En superlett startskjerm for Android TV – laget for å gjøre **Philips Androi
 Erstatter den tunge standard-startskjermen (anbefalinger, reklame, bakgrunnsoppdateringer) med et enkelt
 rutenett av apper i cloud247-design.
 
+![Startskjerm](docs/screenshots/05-opp-til-favoritt.png)
+
+<details>
+<summary>Flere skjermbilder (Android TV-emulator, 1080p)</summary>
+
+| | |
+| --- | --- |
+| ![](docs/screenshots/02-fokus.png) | ![](docs/screenshots/03-app-meny.png) |
+| ![](docs/screenshots/06-toppfelt.png) | ![](docs/screenshots/08-tilpass.png) |
+
+Skjermbildene lages automatisk av GitHub Actions (`.github/workflows/screenshots.yml`).
+</details>
+
 ## Hvorfor raskere?
 
 | Standard Philips/Google TV-startskjerm | cloud247 TV Launcher |

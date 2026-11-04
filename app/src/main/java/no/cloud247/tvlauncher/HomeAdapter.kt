@@ -1,5 +1,7 @@
 package no.cloud247.tvlauncher
 
+import android.animation.ValueAnimator
+import android.os.Build
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -96,7 +98,13 @@ class HomeAdapter(
             }
             tile.setOnFocusChangeListener { v, hasFocus ->
                 val scale = if (hasFocus) FOCUS_SCALE else 1f
-                v.animate().scaleX(scale).scaleY(scale).setDuration(FOCUS_ANIM_MS).start()
+                v.animate().cancel()
+                if (animationsEnabled()) {
+                    v.animate().scaleX(scale).scaleY(scale).setDuration(FOCUS_ANIM_MS).start()
+                } else {
+                    v.scaleX = scale
+                    v.scaleY = scale
+                }
                 v.translationZ = if (hasFocus) 8f else 0f
                 label.visibility = if (hasFocus) View.VISIBLE else View.INVISIBLE
             }
@@ -137,6 +145,10 @@ class HomeAdapter(
     }
 
     companion object {
+        /** Respekterer «Animasjoner av» i utvikleralternativer (hopper rett til forstørret flis). */
+        private fun animationsEnabled() =
+            Build.VERSION.SDK_INT < 26 || ValueAnimator.areAnimatorsEnabled()
+
         const val TYPE_HEADER = 0
         const val TYPE_APP = 1
         private const val FOCUS_SCALE = 1.08f
