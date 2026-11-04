@@ -44,6 +44,11 @@
             android:text="@string/btn_live_tv" />
 
         <TextView
+            android:id="@+id/btn_sources"
+            style="@style/TopButton"
+            android:text="@string/btn_sources" />
+
+        <TextView
             android:id="@+id/btn_settings"
             style="@style/TopButton"
             android:text="@string/btn_settings" />

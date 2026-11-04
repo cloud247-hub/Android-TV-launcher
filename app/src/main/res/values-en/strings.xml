@@ -27,4 +27,12 @@
     <string name="cancel">Cancel</string>
     <string name="error_launch">Could not start the app</string>
     <string name="error_live_tv">No TV app found. Use the SOURCES button on the remote.</string>
+
+    <string name="btn_sources">Sources</string>
+    <string name="sources_title">Choose source</string>
+    <string name="sources_none">No sources found. Use the SOURCES button on the remote.</string>
+    <string name="customize_home_button">HOME button opens cloud247</string>
+    <string name="home_service_label">cloud247: HOME button</string>
+    <string name="home_service_description">Lets the HOME button on the remote open the cloud247 home screen. Only reads the HOME key – no screen content or data is collected.</string>
+    <string name="home_service_hint">Turn on «cloud247: HOME button» in the list</string>
 </resources>

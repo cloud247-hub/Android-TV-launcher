@@ -31,4 +31,12 @@
     <string name="cancel">Avbryt</string>
     <string name="error_launch">Kunne ikke starte appen</string>
     <string name="error_live_tv">Fant ingen TV-app. Bruk SOURCES-knappen på fjernkontrollen.</string>
+
+    <string name="btn_sources">Kilder</string>
+    <string name="sources_title">Velg kilde</string>
+    <string name="sources_none">Fant ingen kilder. Bruk SOURCES-knappen på fjernkontrollen.</string>
+    <string name="customize_home_button">HOME-knappen åpner cloud247</string>
+    <string name="home_service_label">cloud247: HOME-knapp</string>
+    <string name="home_service_description">Lar HOME-knappen på fjernkontrollen åpne cloud247-startskjermen. Leser kun HOME-tasten – ingen skjerminnhold eller data samles inn.</string>
+    <string name="home_service_hint">Slå på «cloud247: HOME-knapp» i listen</string>
 </resources>

@@ -52,5 +52,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Valgfritt: får HOME-knappen til å åpne cloud247 uten å deaktivere standard-launcheren -->
+        <service
+            android:name=".HomeButtonService"
+            android:exported="false"
+            android:label="@string/home_service_label"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/home_button_service" />
+        </service>
     </application>
 </manifest>

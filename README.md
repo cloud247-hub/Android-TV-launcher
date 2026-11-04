@@ -13,6 +13,8 @@ rutenett av apper i cloud247-design.
 | Store biblioteker (Leanback, Compose, Play Services) | Kun `RecyclerView`, APK på ~1 MB |
 | Animasjoner og video-forhåndsvisning | Én kort fokus-animasjon (120 ms) |
 
+Inspirert av [Plume Launcher](https://github.com/aradhyas8/Plume_Launcher) (bl.a. HOME-knapp via tilgjengelighetstjeneste i stedet for å deaktivere standard-launcheren), men bevisst enda enklere: ingen bakgrunnsbilder, ingen «Fortsett å se», ingen nedlastinger.
+
 Teknisk: ikoner/bannere lastes på bakgrunnstråd og caches i minnet, appliste oppdateres kun når pakker endres,
 bakgrunnen tegnes direkte av vinduet (ingen overdraw), og alt annet er ren Android-rammeverkskode.
 
@@ -20,7 +22,10 @@ bakgrunnen tegnes direkte av vinduet (ingen overdraw), og alt annet er ren Andro
 
 - **Favoritter** øverst (YouTube, Netflix, NRK TV, Disney+, Prime, Max, Viaplay, TV 2 Play osv. legges inn automatisk hvis installert)
 - **Alle apper** i et rutenett med app-bannere, sortert alfabetisk
-- **Live TV**-knapp (åpner Philips Watch TV / `org.droidtv.playtv`), **Innstillinger**-knapp, klokke og dato
+- **Live TV**-knapp (åpner Philips Watch TV / `org.droidtv.playtv`)
+- **Kilder**-knapp: lister HDMI-innganger/antenne og bytter direkte
+- **Innstillinger**-knapp, klokke og dato
+- **HOME-knapp-støtte** uten å deaktivere Philips' egen startskjerm (se under)
 - **Hold inne OK** (eller trykk MENU) på en app: legg til/fjern favoritt, flytt venstre/høyre, skjul, appinfo, avinstaller
 - **Tilpass**: vis skjulte apper igjen, tilbakestill favoritter, velg standard startskjerm
 - Norsk tekst (engelsk hvis TV-en står på engelsk)
@@ -69,30 +74,42 @@ adb install -r cloud247-tv-launcher.apk
 
 Alternativt: legg APK-en på en USB-minnepinne og installer med en filbehandler (f.eks. «File Commander»/«X-plore»).
 
-4. Trykk **HOME** på fjernkontrollen. Velg **cloud247 TV** og **Alltid** hvis TV-en spør.
+4. Åpne **cloud247 TV** fra app-listen én gang.
 
-### Hvis TV-en ikke spør om startskjerm
+### Få HOME-knappen til å åpne cloud247
 
-Mange Philips-modeller hopper over valget. Da kan standard-launcheren slås av (helt reversibelt):
+> ⚠️ **Ikke deaktiver standard-launcheren** (`pm disable-user com.google.android.tvlauncher`).
+> På Philips kan det ødelegge oppsett, kildebytte (HDMI) eller oppstart, og i verste fall kreve fabrikktilbakestilling.
+> cloud247 legger seg i stedet *over* standard-launcheren.
+
+**Alternativ A – hvis TV-en spør:** trykk HOME, velg **cloud247 TV** → **Alltid**.
+(Eller: *Tilpass → Velg standard startskjerm*.)
+
+**Alternativ B – Philips/Google TV der HOME er låst (vanligst):**
+I launcheren: **Tilpass → HOME-knappen åpner cloud247**, og slå på **«cloud247: HOME-knapp»** under Tilgjengelighet.
+Tjenesten leser kun HOME-tasten og merker når standard-startskjermen dukker opp (f.eks. etter oppstart) – ingen skjerminnhold, ingen data.
+
+På Android 13+ kan bryteren være grå («begrenset innstilling») for apper som er installert utenfor Play.
+Da: **Innstillinger → Apper → cloud247 TV → ⋮ → Tillat begrensede innstillinger**, eller slå den på direkte via adb:
 
 ```bash
-adb shell pm list packages | grep -i launcher
+adb shell settings put secure enabled_accessibility_services no.cloud247.tvlauncher/no.cloud247.tvlauncher.HomeButtonService
 ```
 
 ```bash
-adb shell pm disable-user --user 0 com.google.android.tvlauncher
+adb shell settings put secure accessibility_enabled 1
 ```
 
-(På eldre Android TV heter den `com.google.android.leanbacklauncher`, på Google TV `com.google.android.apps.tv.launcherx`.)
-Angre når som helst med:
+(Merk: den første kommandoen erstatter eventuelle andre aktive tilgjengelighetstjenester.)
+Angre: slå av tjenesten under Tilgjengelighet, eller:
 
 ```bash
-adb shell pm enable com.google.android.tvlauncher
+adb shell settings delete secure enabled_accessibility_services
 ```
 
 ### Ekstra fartstips (valgfritt, reversibelt)
 
-Halver systemanimasjonene:
+Halver systemanimasjonene (sett tilbake til `1` for å angre):
 
 ```bash
 adb shell settings put global window_animation_scale 0.5
@@ -104,12 +121,6 @@ adb shell settings put global transition_animation_scale 0.5
 
 ```bash
 adb shell settings put global animator_duration_scale 0.5
-```
-
-Slå av anbefalingskanaler som kjører i bakgrunnen:
-
-```bash
-adb shell pm disable-user --user 0 com.google.android.tvrecommendations
 ```
 
 ## Bygge selv

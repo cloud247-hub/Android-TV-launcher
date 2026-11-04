@@ -9,6 +9,8 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Color
 import android.media.tv.TvContract
+import android.media.tv.TvInputInfo
+import android.media.tv.TvInputManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -128,6 +130,7 @@ class LauncherActivity : Activity() {
 
     private fun setupTopBar() {
         findViewById<View>(R.id.btn_live_tv).setOnClickListener { openLiveTv() }
+        findViewById<View>(R.id.btn_sources).setOnClickListener { showSources() }
         findViewById<View>(R.id.btn_settings).setOnClickListener {
             safeStart(Intent(Settings.ACTION_SETTINGS))
         }
@@ -269,6 +272,45 @@ class LauncherActivity : Activity() {
         Toast.makeText(this, R.string.error_live_tv, Toast.LENGTH_LONG).show()
     }
 
+    /** Lister TV-ens innganger (HDMI, antenne osv.) og bytter direkte til valgt kilde. */
+    private fun showSources() {
+        val tim = getSystemService(Context.TV_INPUT_SERVICE) as? TvInputManager
+        val inputs = try {
+            tim?.tvInputList.orEmpty().filter { !it.isHidden(this) }
+        } catch (e: Exception) {
+            emptyList()
+        }
+        if (inputs.isEmpty()) {
+            Toast.makeText(this, R.string.sources_none, Toast.LENGTH_LONG).show()
+            return
+        }
+        val labels = inputs.map { it.loadLabel(this).toString() }.toTypedArray()
+        AlertDialog.Builder(this)
+            .setTitle(R.string.sources_title)
+            .setItems(labels) { _, which -> openInput(inputs[which]) }
+            .show()
+            .styleList()
+    }
+
+    private fun openInput(input: TvInputInfo) {
+        val uri = if (input.isPassthroughInput) {
+            TvContract.buildChannelUriForPassthroughInput(input.id)
+        } else {
+            TvContract.buildChannelsUriForInput(input.id)
+        }
+        if (safeStart(Intent(Intent.ACTION_VIEW, uri))) return
+        if (!input.isPassthroughInput) openLiveTv() else {
+            Toast.makeText(this, R.string.sources_none, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun openHomeButtonSettings() {
+        Toast.makeText(this, R.string.home_service_hint, Toast.LENGTH_LONG).show()
+        if (!safeStart(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))) {
+            safeStart(Intent(Settings.ACTION_SETTINGS))
+        }
+    }
+
     private fun showAppOptions(app: AppEntry, inFavorites: Boolean) {
         val favorites = prefs.favorites.toMutableList()
         val isFavorite = app.key in favorites
@@ -335,6 +377,7 @@ class LauncherActivity : Activity() {
         val labels = arrayOf(
             getString(R.string.customize_unhide),
             getString(R.string.customize_reset_favorites),
+            getString(R.string.customize_home_button),
             getString(R.string.customize_set_default),
             getString(R.string.btn_settings),
         )
@@ -348,10 +391,11 @@ class LauncherActivity : Activity() {
                         seedFavoritesIfFirstRun()
                         render()
                     }
-                    2 -> if (!safeStart(Intent(Settings.ACTION_HOME_SETTINGS))) {
+                    2 -> openHomeButtonSettings()
+                    3 -> if (!safeStart(Intent(Settings.ACTION_HOME_SETTINGS))) {
                         safeStart(Intent(Settings.ACTION_SETTINGS))
                     }
-                    3 -> safeStart(Intent(Settings.ACTION_SETTINGS))
+                    4 -> safeStart(Intent(Settings.ACTION_SETTINGS))
                 }
             }
             .show()
