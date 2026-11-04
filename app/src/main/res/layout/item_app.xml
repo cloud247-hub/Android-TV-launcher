@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_tile"
         android:clickable="true"
-        android:focusable="true">
+        android:focusable="true"
+        android:padding="@dimen/tile_focus_stroke">
 
         <ImageView
             android:id="@+id/banner"
@@ -27,6 +28,7 @@
             android:id="@+id/icon_box"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/bg_tile_inner"
             android:gravity="center"
             android:orientation="vertical"
             android:padding="8dp">

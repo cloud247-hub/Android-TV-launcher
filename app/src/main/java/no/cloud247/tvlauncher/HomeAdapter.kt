@@ -3,9 +3,11 @@ package no.cloud247.tvlauncher
 import android.animation.ValueAnimator
 import android.os.Build
 import android.view.KeyEvent
+import android.graphics.Outline
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewOutlineProvider
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -90,8 +92,14 @@ class HomeAdapter(
         private var boundKey: String? = null
 
         init {
-            // Avrundede hjørner også på app-bannere
-            tile.clipToOutline = true
+            // Avrundede hjørner på app-bannere (innenfor rammen)
+            val radius = view.resources.getDimension(R.dimen.tile_inner_radius)
+            banner.outlineProvider = object : ViewOutlineProvider() {
+                override fun getOutline(v: View, outline: Outline) {
+                    outline.setRoundRect(0, 0, v.width, v.height, radius)
+                }
+            }
+            banner.clipToOutline = true
             tile.setOnKeyListener { _, keyCode, event ->
                 val pos = bindingAdapterPosition
                 event.action == KeyEvent.ACTION_DOWN && pos != RecyclerView.NO_POSITION && onNavigate(pos, keyCode)
@@ -151,7 +159,7 @@ class HomeAdapter(
 
         const val TYPE_HEADER = 0
         const val TYPE_APP = 1
-        private const val FOCUS_SCALE = 1.08f
+        private const val FOCUS_SCALE = 1.1f
         private const val FOCUS_ANIM_MS = 120L
     }
 }

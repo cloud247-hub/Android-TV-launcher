@@ -5,5 +5,6 @@
     <dimen name="tile_radius">10dp</dimen>
     <dimen name="tile_margin">8dp</dimen>
     <dimen name="tile_focus_stroke">4dp</dimen>
+    <dimen name="tile_inner_radius">7dp</dimen>
     <dimen name="tile_icon_size">56dp</dimen>
 </resources>
