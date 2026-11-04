@@ -16,29 +16,34 @@ adb shell settings put global animator_duration_scale 0
 adb shell am start -W -n "$PKG/.LauncherActivity"
 shot 01-hjem 6
 
+# Ned til «Alle apper» og to til høyre
+key DPAD_DOWN
 key DPAD_RIGHT
 key DPAD_RIGHT
 shot 02-fokus 1
 
-key DPAD_DOWN
-shot 03-alle-apper 1
-
+# Hold inne OK → app-meny → «Legg til i favoritter»
 key --longpress DPAD_CENTER
-shot 04-app-meny 2
-key BACK
+shot 03-app-meny 2
+key DPAD_CENTER
+shot 04-ny-favoritt 2
 
-# Opp til toppfeltet og åpne «Kilder»
-for _ in 1 2 3 4 5; do key DPAD_UP; done
-key DPAD_LEFT; key DPAD_LEFT; key DPAD_LEFT
+# Opp til favoritter, opp igjen til toppfeltet
+key DPAD_UP
+shot 05-opp-til-favoritt 1
+key DPAD_UP
+shot 06-toppfelt 1
+
+# Kilder
 key DPAD_RIGHT
-shot 05-toppfelt 1
 key DPAD_CENTER
-shot 06-kilder 2
-key BACK
+shot 07-kilder 2
 
-key DPAD_RIGHT; key DPAD_RIGHT
+# Tilpass
+key DPAD_RIGHT
+key DPAD_RIGHT
 key DPAD_CENTER
-shot 07-tilpass 2
+shot 08-tilpass 2
 key BACK
 
 ls -la "$OUT"

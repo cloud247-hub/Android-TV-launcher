@@ -1,5 +1,6 @@
 package no.cloud247.tvlauncher
 
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ class HomeAdapter(
     private val icons: IconLoader,
     private val onClick: (AppEntry) -> Unit,
     private val onLongClick: (AppEntry, inFavorites: Boolean) -> Unit,
+    private val onNavigate: (position: Int, keyCode: Int) -> Boolean,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var items: List<HomeItem> = emptyList()
@@ -86,6 +88,12 @@ class HomeAdapter(
         private var boundKey: String? = null
 
         init {
+            // Avrundede hjørner også på app-bannere
+            tile.clipToOutline = true
+            tile.setOnKeyListener { _, keyCode, event ->
+                val pos = bindingAdapterPosition
+                event.action == KeyEvent.ACTION_DOWN && pos != RecyclerView.NO_POSITION && onNavigate(pos, keyCode)
+            }
             tile.setOnFocusChangeListener { v, hasFocus ->
                 val scale = if (hasFocus) FOCUS_SCALE else 1f
                 v.animate().scaleX(scale).scaleY(scale).setDuration(FOCUS_ANIM_MS).start()

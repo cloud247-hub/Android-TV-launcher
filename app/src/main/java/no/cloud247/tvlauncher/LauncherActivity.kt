@@ -135,6 +135,17 @@ class LauncherActivity : Activity() {
             safeStart(Intent(Settings.ACTION_SETTINGS))
         }
         findViewById<View>(R.id.btn_customize).setOnClickListener { showCustomize() }
+
+        // Pil ned fra toppfeltet går alltid til første app.
+        val downToGrid = View.OnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN && event.action == KeyEvent.ACTION_DOWN) {
+                focusFirstApp()
+                true
+            } else {
+                false
+            }
+        }
+        for (id in TOP_BUTTONS) findViewById<View>(id).setOnKeyListener(downToGrid)
     }
 
     private fun setupGrid() {
@@ -143,6 +154,7 @@ class LauncherActivity : Activity() {
             icons = icons,
             onClick = ::launch,
             onLongClick = ::showAppOptions,
+            onNavigate = ::navigate,
         )
         val lm = GridLayoutManager(this, SPAN_COUNT)
         lm.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
@@ -216,6 +228,81 @@ class LauncherActivity : Activity() {
             main.post { focusFirstApp() }
         } else {
             main.post { if (currentFocus == null) focusFirstApp() }
+        }
+    }
+
+    /**
+     * Forutsigbar D-pad-navigasjon i rutenettet: høyre/venstre stopper ved radkanten,
+     * opp/ned går til samme kolonne i raden over/under (også på tvers av seksjoner),
+     * og opp fra øverste rad går til toppfeltet.
+     */
+    private fun navigate(pos: Int, keyCode: Int): Boolean {
+        val items = adapter.items
+        val headers = items.indices.filter { items[it] is HomeItem.Header }
+        val header = headers.lastOrNull { it < pos } ?: return false
+        val start = header + 1
+        val end = headers.firstOrNull { it > pos } ?: items.size
+        val count = end - start
+        val idx = pos - start
+        val col = idx % SPAN_COUNT
+        val row = idx / SPAN_COUNT
+        val lastRow = (count - 1) / SPAN_COUNT
+
+        when (keyCode) {
+            KeyEvent.KEYCODE_DPAD_LEFT -> {
+                if (col > 0) focusPosition(pos - 1)
+                return true
+            }
+            KeyEvent.KEYCODE_DPAD_RIGHT -> {
+                if (col < SPAN_COUNT - 1 && idx + 1 < count) focusPosition(pos + 1)
+                return true
+            }
+            KeyEvent.KEYCODE_DPAD_UP -> {
+                if (row > 0) {
+                    focusPosition(pos - SPAN_COUNT)
+                    return true
+                }
+                val prevHeader = headers.lastOrNull { it < header }
+                if (prevHeader != null) {
+                    val pStart = prevHeader + 1
+                    val pCount = header - pStart
+                    if (pCount > 0) {
+                        val pLastRow = (pCount - 1) / SPAN_COUNT
+                        focusPosition(pStart + minOf(pLastRow * SPAN_COUNT + col, pCount - 1))
+                        return true
+                    }
+                }
+                grid.scrollToPosition(0)
+                findViewById<View>(R.id.btn_live_tv).requestFocus()
+                return true
+            }
+            KeyEvent.KEYCODE_DPAD_DOWN -> {
+                if (row < lastRow) {
+                    focusPosition(start + minOf((row + 1) * SPAN_COUNT + col, count - 1))
+                    return true
+                }
+                val nextHeader = headers.firstOrNull { it > pos }
+                if (nextHeader != null) {
+                    val nStart = nextHeader + 1
+                    val nEnd = headers.firstOrNull { it > nextHeader } ?: items.size
+                    val nCount = nEnd - nStart
+                    if (nCount > 0) focusPosition(nStart + minOf(col, nCount - 1))
+                }
+                return true
+            }
+        }
+        return false
+    }
+
+    private fun focusPosition(pos: Int) {
+        val tile = grid.findViewHolderForAdapterPosition(pos)?.itemView?.findViewById<View>(R.id.tile)
+        if (tile != null) {
+            tile.requestFocus()
+            return
+        }
+        grid.scrollToPosition(pos)
+        grid.post {
+            grid.findViewHolderForAdapterPosition(pos)?.itemView?.findViewById<View>(R.id.tile)?.requestFocus()
         }
     }
 
@@ -435,6 +522,10 @@ class LauncherActivity : Activity() {
 
     companion object {
         private const val SPAN_COUNT = 6
+
+        private val TOP_BUTTONS = intArrayOf(
+            R.id.btn_live_tv, R.id.btn_sources, R.id.btn_settings, R.id.btn_customize,
+        )
 
         private val LIVE_TV_PACKAGES = listOf(
             "org.droidtv.playtv",           // Philips Watch TV
