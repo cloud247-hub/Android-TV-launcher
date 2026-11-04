@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 320x180 banner for Android TV (vises i systemets app-liste) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="320dp"
+    android:height="180dp"
+    android:viewportWidth="320"
+    android:viewportHeight="180">
+    <path android:fillColor="@color/c247_bg_top" android:pathData="M0,0h320v180h-320z" />
+    <path android:fillColor="@color/c247_primary" android:pathData="M0,168h320v12h-320z" />
+    <path
+        android:fillColor="@color/c247_accent"
+        android:pathData="M199.4,78.3C195.6,59.3 179,45 159,45 143.1,45 129.3,54 122.4,67.2 105.9,69 93,83 93,100c0,18.2 14.8,33 33,33h71.5c15.2,0 27.5,-12.3 27.5,-27.5 0,-14.5 -11.3,-26.3 -25.6,-27.2z" />
+</vector>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Cloud247Launcher" parent="@android:style/Theme.Material.NoActionBar.Fullscreen">
+        <!-- Bakgrunnen tegnes av vinduet: ingen ekstra overdraw og ingen hvit blink ved oppstart -->
+        <item name="android:windowBackground">@drawable/bg_home</item>
+        <item name="android:windowShowWallpaper">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:colorPrimary">@color/c247_primary</item>
+        <item name="android:colorPrimaryDark">@color/c247_bg_bottom</item>
+        <item name="android:colorAccent">@color/c247_accent</item>
+        <item name="android:textColorPrimary">@color/c247_text</item>
+        <item name="android:textColorSecondary">@color/c247_text_muted</item>
+        <item name="android:alertDialogTheme">@style/Theme.Cloud247Launcher.Dialog</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="Theme.Cloud247Launcher.Dialog" parent="@android:style/Theme.Material.Dialog.Alert">
+        <item name="android:colorAccent">@color/c247_accent</item>
+        <item name="android:colorPrimary">@color/c247_primary</item>
+        <item name="android:windowBackground">@drawable/bg_dialog</item>
+        <item name="android:textColorPrimary">@color/c247_text</item>
+        <item name="android:textColorSecondary">@color/c247_text_muted</item>
+    </style>
+
+    <style name="TopButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:background">@drawable/bg_button</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:paddingStart">22dp</item>
+        <item name="android:paddingEnd">22dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textColor">@color/c247_text</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+</resources>

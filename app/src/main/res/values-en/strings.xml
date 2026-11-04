@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="section_favorites">Favorites</string>
+    <string name="section_all_apps">All apps</string>
+    <string name="favorites_empty_hint">Long-press OK on an app to add it to favorites</string>
+
+    <string name="btn_live_tv">Live TV</string>
+    <string name="btn_settings">Settings</string>
+    <string name="btn_customize">Customize</string>
+
+    <string name="opt_add_favorite">Add to favorites</string>
+    <string name="opt_remove_favorite">Remove from favorites</string>
+    <string name="opt_move_left">Move left</string>
+    <string name="opt_move_right">Move right</string>
+    <string name="opt_hide">Hide app</string>
+    <string name="opt_app_info">App info</string>
+    <string name="opt_uninstall">Uninstall</string>
+
+    <string name="customize_title">Customize launcher</string>
+    <string name="customize_unhide">Show hidden apps</string>
+    <string name="customize_set_default">Choose default home screen</string>
+    <string name="customize_reset_favorites">Reset favorites</string>
+    <string name="customize_no_hidden">No hidden apps</string>
+    <string name="unhide_title">Choose apps to show</string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="error_launch">Could not start the app</string>
+    <string name="error_live_tv">No TV app found. Use the SOURCES button on the remote.</string>
+</resources>

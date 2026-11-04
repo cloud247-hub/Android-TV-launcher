@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    cloud247 designfarger – ALLE farger i launcheren hentes herfra.
+    Bytt hex-kodene under for å matche cloud247.no 1:1.
+-->
+<resources>
+    <!-- Bakgrunn (mørk navy-gradient) -->
+    <color name="c247_bg_top">#0A1628</color>
+    <color name="c247_bg_bottom">#050B16</color>
+
+    <!-- Flater (kort, knapper) -->
+    <color name="c247_surface">#13223A</color>
+    <color name="c247_surface_focused">#1C3253</color>
+
+    <!-- Merkevare -->
+    <color name="c247_primary">#1E90FF</color>
+    <color name="c247_accent">#22D3EE</color>
+
+    <!-- Tekst -->
+    <color name="c247_text">#F1F5F9</color>
+    <color name="c247_text_muted">#94A3B8</color>
+
+    <color name="c247_divider">#1F3150</color>
+</resources>

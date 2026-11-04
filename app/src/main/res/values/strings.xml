@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">cloud247 TV</string>
+    <string name="brand_cloud">cloud</string>
+    <string name="brand_247">247</string>
+
+    <string name="section_favorites">Favoritter</string>
+    <string name="section_all_apps">Alle apper</string>
+    <string name="favorites_empty_hint">Hold inne OK på en app for å legge den til i favoritter</string>
+
+    <string name="btn_live_tv">Live TV</string>
+    <string name="btn_settings">Innstillinger</string>
+    <string name="btn_customize">Tilpass</string>
+
+    <string name="opt_add_favorite">Legg til i favoritter</string>
+    <string name="opt_remove_favorite">Fjern fra favoritter</string>
+    <string name="opt_move_left">Flytt til venstre</string>
+    <string name="opt_move_right">Flytt til høyre</string>
+    <string name="opt_hide">Skjul app</string>
+    <string name="opt_app_info">Appinfo</string>
+    <string name="opt_uninstall">Avinstaller</string>
+
+    <string name="customize_title">Tilpass launcher</string>
+    <string name="customize_unhide">Vis skjulte apper</string>
+    <string name="customize_set_default">Velg standard startskjerm</string>
+    <string name="customize_reset_favorites">Tilbakestill favoritter</string>
+    <string name="customize_no_hidden">Ingen skjulte apper</string>
+    <string name="unhide_title">Velg apper som skal vises</string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Avbryt</string>
+    <string name="error_launch">Kunne ikke starte appen</string>
+    <string name="error_live_tv">Fant ingen TV-app. Bruk SOURCES-knappen på fjernkontrollen.</string>
+</resources>
